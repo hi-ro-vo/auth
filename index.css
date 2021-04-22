@@ -1,0 +1,48 @@
+main {
+    display: grid;
+    align-items: center;
+}
+form {
+    background: aqua;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+button{
+    font-size: xx-large;
+    border-radius: 10px;
+    flex-grow: 1;
+    align-content: center;
+    margin: 5px;
+    padding: auto;
+}
+
+form > * {
+    border-radius: 5px;
+    height: 30px;
+    margin: 5px;
+}
+
+#top{
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    margin: 5% 30% 0px;
+    height: 75px;
+}
+
+.dark{
+    background-color: black;
+}
+
+.dark main form{
+    background-color: darkgoldenrod;
+}
+
+.dark main button{
+    background-color: darkgoldenrod;
+}
+
