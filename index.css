@@ -2,7 +2,7 @@ main {
     display: grid;
     align-items: center;
 }
-form {
+.section {
     background: aqua;
     border-radius: 10px;
     padding: 10px;
@@ -20,7 +20,7 @@ button{
     padding: auto;
 }
 
-form > * {
+.section > * {
     border-radius: 5px;
     height: 30px;
     margin: 5px;
@@ -38,11 +38,29 @@ form > * {
     background-color: black;
 }
 
-.dark main form{
+.dark main .section{
     background-color: darkgoldenrod;
 }
 
 .dark main button{
     background-color: darkgoldenrod;
+}
+
+
+#bottom{
+    display: grid;
+    margin: 10px 30%;
+    height: fit-content;
+    grid-template-columns: 50% 50%;
+}
+
+#users{
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+#users *{
+
 }
 

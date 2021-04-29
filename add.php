@@ -42,8 +42,8 @@ $arr = mysqli_fetch_array($res);
 
 
 if (!empty($arr["id"])){
-    exit($arr["id"]);
-    exit("Пользователь уже есть");
+    echo json_encode(array('message' => 'Пользователь уже есть', 'anserType' => 2));
+    exit();
 }
 
 

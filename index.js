@@ -1,12 +1,14 @@
 $(document).ready(function() {
     $("#submit").click(
         function(){
+            $("#addLogP").css('display', 'none');
             sendAjaxForm('auth', 'add.php');
             return false;
         }
     );
     $("#theme").click(
         function () {
+            $("#addLogP").css('display', 'none');
             $("#enterLogP").css('display', 'none');
             $("#enterPassP").css('display', 'none');
             let light = document.querySelector(".light");
@@ -29,6 +31,7 @@ $(document).ready(function() {
             $('#enter').css('display', 'none');
             $("#enterLogP").css('display', 'none');
             $("#enterPassP").css('display', 'none');
+            $("#addLogP").css('display', 'none');
         }
     );
     $("#enterbtn").click(
@@ -37,6 +40,7 @@ $(document).ready(function() {
             $('#auth').css('display', 'none');
             $("#enterLogP").css('display', 'none');
             $("#enterPassP").css('display', 'none');
+            $("#addLogP").css('display', 'none');
         }
     );
     $("#entersub").click(
@@ -58,6 +62,15 @@ $(document).ready(function() {
             $('#enterbtn').css('display', '');
         }
     )
+    $("#findForm").click(
+        function () {
+            event.preventDefault();
+            find();
+        }
+    );
+
+    stat();
+
 });
 
 function sendAjaxForm(ajax_form, url) {
@@ -70,7 +83,16 @@ function sendAjaxForm(ajax_form, url) {
         success: function(response) {
             //$('#enter').css('display', 'flex');
             //$('#auth').css('display', 'none');
-            console.log(response);
+            console.log($.parseJSON(response));
+            let res = $.parseJSON(response);
+            switch (res["anserType"]) {
+                case 2:{
+                    console.log(res.message);
+                    $("#addLogP").css('display', '');
+                    $("#addLogP").html(res.message);
+                    break;
+                }
+            }
             //result = $.parseJSON(response);
             console.log('+');
         },
@@ -121,4 +143,39 @@ function  enter(ajax_form, url) {
     });
 }
 
+function stat() {
+    $.ajax({
+        url:     "getStat.php",
+        type:     "GET",
+        success: function(response) {
+            console.log(response);
+            let result = $.parseJSON(response);
+            for (let i in result["names"]){
+                console.log(result["names"][i]);
+                $("#users").html($("#users").html()+"<p>"+result["names"][i]["name"]+" "+result["names"][i]["surname"]+"</p>");
+            }
 
+            $("#stat p").html("Пользователей: "+result["count"]);
+
+        },
+        error: function(response) {
+            console.log('-');
+        }
+    });
+}
+
+function find() {
+    $.ajax({
+        url:     "find.php",
+        type:     "POST",
+        dataType: "html",
+        data: $("#findForm").serialize(),
+        success: function(response) {
+            console.log(response);
+
+        },
+        error: function(response) {
+            console.log('-');
+        }
+    });
+}
