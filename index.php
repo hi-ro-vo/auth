@@ -51,13 +51,12 @@
         <div>
             <div id="stat">
                 <h3>Статиска</h3>
-                <p></p>
             </div>
             <div id="find">
                 <h3>Поиск</h3>
                 <form action="#" id="findForm">
                     <input type="text" name="request">
-                    <input type="submit" value="Найти пользователя">
+                    <input type="submit" id="findSub" value="Найти пользователя">
                 </form>
                 <div id="answer"></div>
             </div>

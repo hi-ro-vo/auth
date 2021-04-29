@@ -2,7 +2,9 @@ $(document).ready(function() {
     $("#submit").click(
         function(){
             $("#addLogP").css('display', 'none');
+            $("#auth").reset();
             sendAjaxForm('auth', 'add.php');
+
             return false;
         }
     );
@@ -50,6 +52,7 @@ $(document).ready(function() {
             $("#enterLogP").css('display', 'none');
             $("#enterPassP").css('display', 'none');
             enter('enter', 'login.php');
+            $("#enter").trigger("reset");
         }
     );
     $("#exit").click(
@@ -62,10 +65,11 @@ $(document).ready(function() {
             $('#enterbtn').css('display', '');
         }
     )
-    $("#findForm").click(
+    $("#findSub").click(
         function () {
             event.preventDefault();
             find();
+            $("#findForm").trigger("reset");
         }
     );
 
@@ -155,8 +159,13 @@ function stat() {
                 $("#users").html($("#users").html()+"<p>"+result["names"][i]["name"]+" "+result["names"][i]["surname"]+"</p>");
             }
 
-            $("#stat p").html("Пользователей: "+result["count"]);
-
+            $("#stat").html(
+                $("#stat").html()+
+                "<p> Пользователей: "+result["count"] + "</p>"+
+                "<p> Пользователей за месяц: "+result["last_month"] + "</p>" +
+                "<p> Последний зарегистрированный: "+result["last_user"]["name"] + " " + result["last_user"]["surname"] +"</p>"
+            );
+            console.log(result);
         },
         error: function(response) {
             console.log('-');
@@ -171,8 +180,18 @@ function find() {
         dataType: "html",
         data: $("#findForm").serialize(),
         success: function(response) {
-            console.log(response);
 
+            $("#answer").html("");
+            let result = $.parseJSON(response);
+            console.log(result["names"].length);
+            if (result["names"].length == 0){
+                $("#answer").html("<p> Пользователей не найдено</p>")
+            } else {
+                for (let i in result["names"]){
+                    console.log(result["names"][i]);
+                    $("#answer").html($("#answer").html()+"<p>"+result["names"][i]["name"]+" "+result["names"][i]["surname"]+"</p>");
+                }
+            }
         },
         error: function(response) {
             console.log('-');

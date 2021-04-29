@@ -9,9 +9,9 @@ $search = "select name,surname from users ";
 $searchWords =explode(' ', $request);
 $were = "";
 foreach ($searchWords as $word) {
-    $were .= "or name Like $word";
+    $were .= "or name Like('$word')";
 }
-$search .= " Where 1=1 $were";
+$search .= " Where 1=0 $were";
 
 $db = mysqli_connect("localhost", "root", "root", "lab1");
 
@@ -19,11 +19,9 @@ $res = mysqli_query($db, $search);
 
 $arr = [];
 
-echo $search;
-echo $res;
-echo "\n";
+
 while ($user = mysqli_fetch_array($res)){
-    array_push($arr, array("name" => $user["name"]));
+    array_push($arr, array("name" => $user["name"], "surname" => $user["surname"]));
 }
 
 
