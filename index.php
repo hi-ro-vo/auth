@@ -2,8 +2,11 @@
     <title>authorisation</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="index.js"></script>
+    <script async src="https://www.google.com/recaptcha/api.js?render=6Lem-74aAAAAANpft_0JSGHz4pmbGxc7HrO_Dy-J"></script>
 </head>
-<body class="light">
+<body class="<?php
+if (isset($_COOKIE["theme"])) echo $_COOKIE["theme"]; else echo "light"
+?>">
 
 <link rel="stylesheet" href="index.css">
 <main>
@@ -23,6 +26,7 @@
         <p id="addLogP" style="display: none"></p>
         <input type="password" name="password" placeholder="Пароль" autocomplete="off" required
                pattern="[a-zA-Z0-9!~@#$]+">
+        <p id="authPass" style="display: none"></p>
         <input type="password" name="pass2" placeholder="Подтверждение пароля" autocomplete="off" required>
         <select name="age" id="age" required>
             <option value="true">Мне больше 18</option>
@@ -30,7 +34,9 @@
         </select>
         <p><input type="radio" value="men" name="sex" checked>Мужской</p>
         <p><input type="radio" value="women" name="sex">Женский</p>
+        <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
         <input type="submit" name="submit" id="submit" value="Зарегестрироваться">
+        <p id="authMessage" style="display: none"></p>
 
     </form>
     <form action="#" id="enter" method="post" style="display: none" class="section">

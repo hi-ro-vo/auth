@@ -3,7 +3,17 @@ $(document).ready(function() {
         function(){
             $("#addLogP").css('display', 'none');
             $("#auth").reset();
-            sendAjaxForm('auth', 'add.php');
+            $("#authMessage").css('display', 'none');;
+            $("#authPass").css('display', 'none');
+            event.preventDefault();
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6Lem-74aAAAAANpft_0JSGHz4pmbGxc7HrO_Dy-J', { action: 'contact' }).then(function (token) {
+                    var recaptchaResponse = document.getElementById('recaptchaResponse');
+                    recaptchaResponse.value = token;
+                    sendAjaxForm('auth', 'add.php');
+
+                });
+            });
 
             return false;
         }
@@ -11,29 +21,49 @@ $(document).ready(function() {
     $("#theme").click(
         function () {
             $("#addLogP").css('display', 'none');
+            $("#authMessage").css('display', 'none');;
+            $("#authPass").css('display', 'none');
             $("#enterLogP").css('display', 'none');
             $("#enterPassP").css('display', 'none');
             let light = document.querySelector(".light");
             let dark = document.querySelector(".dark");
+            let s="";
             if (light === null ){
                 dark.classList.remove("dark");
                 dark.classList.add("light");
+                s = "light";
             }
             if (dark === null){
                 light.classList.remove("light");
                 light.classList.add("dark");
+                s = "dark";
             }
 
-
+            $.ajax({
+                url:     "setCookie.php",
+                type:     "POST",
+                dataType: "html",
+                data: {"theme": s},
+                success: function(response) {
+                    console.log('+');
+                },
+                error: function(response) {
+                    console.log('-');
+                }
+            });
         }
     );
     $("#authbtn").click(
         function () {
+            $("#authMessage").html("");
+            $("#authPass").html("");
             $('#auth').css('display', 'flex');
             $('#enter').css('display', 'none');
             $("#enterLogP").css('display', 'none');
             $("#enterPassP").css('display', 'none');
             $("#addLogP").css('display', 'none');
+            $("#authMessage").css('display', 'none');;
+            $("#authPass").css('display', 'none');
         }
     );
     $("#enterbtn").click(
@@ -43,6 +73,8 @@ $(document).ready(function() {
             $("#enterLogP").css('display', 'none');
             $("#enterPassP").css('display', 'none');
             $("#addLogP").css('display', 'none');
+            $("#authMessage").css('display', 'none');;
+            $("#authPass").css('display', 'none');
         }
     );
     $("#entersub").click(
@@ -67,6 +99,9 @@ $(document).ready(function() {
     )
     $("#findSub").click(
         function () {
+            $("#addLogP").css('display', 'none');
+            $("#authMessage").css('display', 'none');;
+            $("#authPass").css('display', 'none');
             event.preventDefault();
             find();
             $("#findForm").trigger("reset");
@@ -90,10 +125,21 @@ function sendAjaxForm(ajax_form, url) {
             console.log($.parseJSON(response));
             let res = $.parseJSON(response);
             switch (res["anserType"]) {
+                case 1:{
+                    $("#authMessage").html(res["message"]);
+                    $("#authMessage").css('display', '');
+                    break;
+
+                }
                 case 2:{
                     console.log(res.message);
                     $("#addLogP").css('display', '');
                     $("#addLogP").html(res.message);
+                    break;
+                }
+                case 3:{
+                    $("#authPass").html(res["message"]);
+                    $("#authPass").css('display', '');
                     break;
                 }
             }
